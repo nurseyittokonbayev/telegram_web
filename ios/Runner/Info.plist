@@ -4,6 +4,10 @@
 <dict>
 	<key>com.apple.security.network.client</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow camera access for video calling</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow microphone access for audio communication</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -15,7 +19,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>telegram_web</string>
+	<string>Видеозвонок</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
