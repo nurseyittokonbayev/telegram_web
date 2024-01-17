@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class WebViewPage extends StatefulWidget {
   const WebViewPage({Key? key}) : super(key: key);
@@ -11,6 +14,7 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   InAppWebViewController? webViewController;
+  bool isAppOpened = false;
 
   @override
   void initState() {
@@ -53,6 +57,10 @@ class _WebViewPageState extends State<WebViewPage> {
             await Future.delayed(const Duration(seconds: 2));
             await runJsCode();
           },
+          onConsoleMessage: (controller, consoleMessage) {
+            // Handle JavaScript console messages here
+            log('JS Console: ${consoleMessage.message}', name: 'Flutter_log');
+          },
           onPermissionRequest: handlePermissionRequest,
         ),
       ),
@@ -62,6 +70,26 @@ class _WebViewPageState extends State<WebViewPage> {
   Future<void> runJsCode() async {
     await webViewController?.injectJavascriptFileFromAsset(
       assetFilePath: 'assets/js/auto.js',
+    );
+  }
+
+  Future<void> showNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('my_id', 'my_channel_name',
+            importance: Importance.max,
+            priority: Priority.high,
+            showWhen: false,
+            icon: '@mipmap/ic_launcher');
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await FlutterLocalNotificationsPlugin().show(
+      0,
+      'Входящий звонок',
+      'Кто-то звонит вам',
+      platformChannelSpecifics,
+      payload: 'item x',
     );
   }
 }
